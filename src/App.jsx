@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./index.css";
+import { ThemeProvider, useTheme } from "./theme/ThemeContext";
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 import Dashboard from "./pages/Dashboard";
@@ -39,13 +40,14 @@ const PAGES = {
   settings:  Settings,
 };
 
-export default function App() {
+function AppShell() {
   const [page, setPage] = useState("dashboard");
+  const { colors } = useTheme();
   const Page = PAGES[page] || Dashboard;
   const meta = PAGE_META[page] || {};
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#0f2236" }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: colors.appBg }}>
       <Sidebar active={page} onNavigate={setPage} />
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
         <Topbar title={meta.title} subtitle={meta.subtitle} />
@@ -54,5 +56,13 @@ export default function App() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppShell />
+    </ThemeProvider>
   );
 }

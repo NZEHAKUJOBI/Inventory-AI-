@@ -1,10 +1,12 @@
 import Card from '../components/Card';
 import { inventorySummary } from '../data/dummyData';
 import { Download, FileText, Filter } from 'lucide-react';
+import { useTheme } from '../theme/ThemeContext';
 
 const fmt = n => '₦ ' + n.toLocaleString();
 
 export default function Reports() {
+  const { colors } = useTheme();
   const totals = inventorySummary.reduce((acc, row) => ({
     openingStock: acc.openingStock + row.openingStock,
     received:     acc.received     + row.received,
@@ -18,11 +20,11 @@ export default function Reports() {
       {/* Header row */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#e8f0fe' }}>Inventory Summary Report</h2>
-          <p style={{ margin: '4px 0 0', fontSize: 12, color: '#8facc8' }}>Period: May 21 – May 28, 2024</p>
+          <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: colors.textPrimary }}>Inventory Summary Report</h2>
+          <p style={{ margin: '4px 0 0', fontSize: 12, color: colors.textSecondary }}>Period: May 21 – May 28, 2024</p>
         </div>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 7, border: '1px solid #1e3a5f', background: '#112233', color: '#8facc8', fontSize: 12, cursor: 'pointer' }}>
+          <button style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 7, border: `1px solid ${colors.border}`, background: colors.cardBg, color: colors.textSecondary, fontSize: 12, cursor: 'pointer' }}>
             <Filter size={13} /> Filter
           </button>
           <button style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 7, border: 'none', background: '#1a6dff', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
@@ -35,12 +37,12 @@ export default function Reports() {
       <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
         {[
           { label: 'Total Inventory Value', value: fmt(245860000),    color: '#1a6dff' },
-          { label: 'Total Items',           value: '1,248',            color: '#e8f0fe' },
-          { label: 'Total Received',        value: fmt(120450000),    color: '#22c55e' },
-          { label: 'Total Issued',          value: fmt(98750000),     color: '#f59e0b' },
+          { label: 'Total Items',           value: '1,248',            color: colors.textPrimary },
+          { label: 'Total Received',        value: fmt(120450000),    color: colors.green },
+          { label: 'Total Issued',          value: fmt(98750000),     color: colors.yellow },
         ].map(s => (
           <Card key={s.label} style={{ flex: 1, minWidth: 180, padding: '14px 18px' }}>
-            <div style={{ fontSize: 11, color: '#8facc8' }}>{s.label}</div>
+            <div style={{ fontSize: 11, color: colors.textSecondary }}>{s.label}</div>
             <div style={{ fontSize: 18, fontWeight: 700, color: s.color, marginTop: 4 }}>{s.value}</div>
           </Card>
         ))}
@@ -48,16 +50,16 @@ export default function Reports() {
 
       {/* Summary table */}
       <Card style={{ padding: 0 }}>
-        <div style={{ padding: '14px 20px', borderBottom: '1px solid #1e3a5f', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '14px 20px', borderBottom: `1px solid ${colors.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <FileText size={15} style={{ color: '#1a6dff' }} />
-            <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#e8f0fe' }}>Category Summary</h3>
+            <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: colors.textPrimary }}>Category Summary</h3>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             {['Inventory','Purchases','Expiry'].map(r => (
               <button key={r} style={{
-                padding: '4px 12px', borderRadius: 6, border: '1px solid #1e3a5f',
-                background: r==='Inventory'?'#1a6dff':'#112233', color: r==='Inventory'?'#fff':'#8facc8',
+                padding: '4px 12px', borderRadius: 6, border: `1px solid ${colors.border}`,
+                background: r==='Inventory'?'#1a6dff':colors.cardBg, color: r==='Inventory'?'#fff':colors.textSecondary,
                 fontSize: 11, cursor: 'pointer'
               }}>{r}</button>
             ))}
@@ -66,30 +68,30 @@ export default function Reports() {
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid #1e3a5f' }}>
+              <tr style={{ borderBottom: `1px solid ${colors.border}` }}>
                 {['Category','Opening Stock','Received','Issued','Closing Stock','Value (₦)'].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: '10px 20px', color: '#8facc8', fontWeight: 500, fontSize: 12 }}>{h}</th>
+                  <th key={h} style={{ textAlign: 'left', padding: '10px 20px', color: colors.textSecondary, fontWeight: 500, fontSize: 12 }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {inventorySummary.map((row, idx) => (
-                <tr key={row.category} style={{ borderBottom: '1px solid #1e3a5f', background: idx%2===0?'transparent':'rgba(30,58,95,0.15)' }}>
-                  <td style={{ padding: '12px 20px', color: '#e8f0fe', fontWeight: 500 }}>{row.category}</td>
-                  <td style={{ padding: '12px 20px', color: '#8facc8' }}>{row.openingStock.toLocaleString()}</td>
-                  <td style={{ padding: '12px 20px', color: '#22c55e', fontWeight: 500 }}>+{row.received.toLocaleString()}</td>
-                  <td style={{ padding: '12px 20px', color: '#ef4444', fontWeight: 500 }}>-{row.issued.toLocaleString()}</td>
-                  <td style={{ padding: '12px 20px', color: '#e8f0fe', fontWeight: 600 }}>{row.closingStock.toLocaleString()}</td>
+                <tr key={row.category} style={{ borderBottom: `1px solid ${colors.border}`, background: idx%2===0?'transparent':colors.rowAlt }}>
+                  <td style={{ padding: '12px 20px', color: colors.textPrimary, fontWeight: 500 }}>{row.category}</td>
+                  <td style={{ padding: '12px 20px', color: colors.textSecondary }}>{row.openingStock.toLocaleString()}</td>
+                  <td style={{ padding: '12px 20px', color: colors.green, fontWeight: 500 }}>+{row.received.toLocaleString()}</td>
+                  <td style={{ padding: '12px 20px', color: colors.red, fontWeight: 500 }}>-{row.issued.toLocaleString()}</td>
+                  <td style={{ padding: '12px 20px', color: colors.textPrimary, fontWeight: 600 }}>{row.closingStock.toLocaleString()}</td>
                   <td style={{ padding: '12px 20px', color: '#1a6dff', fontWeight: 600 }}>{fmt(row.value)}</td>
                 </tr>
               ))}
               {/* Totals row */}
-              <tr style={{ borderTop: '2px solid #1a6dff33', background: 'rgba(26,109,255,0.07)' }}>
-                <td style={{ padding: '12px 20px', color: '#e8f0fe', fontWeight: 700 }}>TOTAL</td>
-                <td style={{ padding: '12px 20px', color: '#8facc8', fontWeight: 700 }}>{totals.openingStock.toLocaleString()}</td>
-                <td style={{ padding: '12px 20px', color: '#22c55e', fontWeight: 700 }}>+{totals.received.toLocaleString()}</td>
-                <td style={{ padding: '12px 20px', color: '#ef4444', fontWeight: 700 }}>-{totals.issued.toLocaleString()}</td>
-                <td style={{ padding: '12px 20px', color: '#e8f0fe', fontWeight: 700 }}>{totals.closingStock.toLocaleString()}</td>
+              <tr style={{ borderTop: '2px solid #1a6dff33', background: colors.accentLight }}>
+                <td style={{ padding: '12px 20px', color: colors.textPrimary, fontWeight: 700 }}>TOTAL</td>
+                <td style={{ padding: '12px 20px', color: colors.textSecondary, fontWeight: 700 }}>{totals.openingStock.toLocaleString()}</td>
+                <td style={{ padding: '12px 20px', color: colors.green, fontWeight: 700 }}>+{totals.received.toLocaleString()}</td>
+                <td style={{ padding: '12px 20px', color: colors.red, fontWeight: 700 }}>-{totals.issued.toLocaleString()}</td>
+                <td style={{ padding: '12px 20px', color: colors.textPrimary, fontWeight: 700 }}>{totals.closingStock.toLocaleString()}</td>
                 <td style={{ padding: '12px 20px', color: '#1a6dff', fontWeight: 700 }}>{fmt(totals.value)}</td>
               </tr>
             </tbody>

@@ -1,8 +1,11 @@
+import { useTheme } from '../theme/ThemeContext';
+
 export default function Card({ children, style = {} }) {
+  const { colors } = useTheme();
   return (
     <div style={{
-      background: '#112233',
-      border: '1px solid #1e3a5f',
+      background: colors.cardBg,
+      border: `1px solid ${colors.border}`,
       borderRadius: 12,
       padding: 20,
       ...style

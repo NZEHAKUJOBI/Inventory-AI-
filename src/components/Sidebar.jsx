@@ -4,6 +4,7 @@ import {
   ShoppingCart, Users, BarChart2, Bell, FileText,
   Settings, ChevronRight, LogOut
 } from 'lucide-react';
+import { useTheme } from '../theme/ThemeContext';
 
 const navItems = [
   { id: 'dashboard',   label: 'Dashboard',     icon: LayoutDashboard },
@@ -19,17 +20,15 @@ const navItems = [
 ];
 
 export default function Sidebar({ active, onNavigate }) {
+  const { colors } = useTheme();
   return (
-    <aside style={{ width: 220, minHeight: '100vh', background: '#0d1b2a', borderRight: '1px solid #1e3a5f', display: 'flex', flexDirection: 'column' }}>
+    <aside style={{ width: 220, minHeight: '100vh', background: colors.sidebarBg, borderRight: `1px solid ${colors.border}`, display: 'flex', flexDirection: 'column' }}>
       {/* Logo */}
-      <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1e3a5f' }}>
+      <div style={{ padding: '20px 16px 16px', borderBottom: `1px solid ${colors.border}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 36, height: 36, borderRadius: 8, background: 'linear-gradient(135deg,#1a6dff,#0040cc)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 14, color: '#fff'
-          }}>AI</div>
+          <img src="/src/assets/logo.png" alt="Logo" style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'contain' }} />
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#e8f0fe', lineHeight: 1 }}>SmartInventory</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: colors.textPrimary, lineHeight: 1 }}>SmartInventory</div>
             <div style={{ fontSize: 10, color: '#1a6dff', fontWeight: 600, marginTop: 2 }}>AI</div>
           </div>
         </div>
@@ -46,8 +45,8 @@ export default function Sidebar({ active, onNavigate }) {
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: 10,
                 padding: '9px 10px', borderRadius: 8, border: 'none', cursor: 'pointer', marginBottom: 2,
-                background: isActive ? 'rgba(26,109,255,0.18)' : 'transparent',
-                color: isActive ? '#5b9dff' : '#8facc8',
+                background: isActive ? colors.accentLight : 'transparent',
+                color: isActive ? colors.accent : colors.textSecondary,
                 fontSize: 13, fontWeight: isActive ? 600 : 400,
                 transition: 'all .15s',
               }}
@@ -67,16 +66,16 @@ export default function Sidebar({ active, onNavigate }) {
       </nav>
 
       {/* User */}
-      <div style={{ padding: '12px 16px', borderTop: '1px solid #1e3a5f', display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ padding: '12px 16px', borderTop: `1px solid ${colors.border}`, display: 'flex', alignItems: 'center', gap: 10 }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#1a6dff,#a855f7)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: '#fff'
         }}>KP</div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, color: '#e8f0fe' }}>Klen Pharma</div>
-          <div style={{ fontSize: 10, color: '#8facc8' }}>Admin</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: colors.textPrimary }}>Klen Pharma</div>
+          <div style={{ fontSize: 10, color: colors.textSecondary }}>Admin</div>
         </div>
-        <LogOut size={14} style={{ color: '#8facc8', cursor: 'pointer' }} />
+        <LogOut size={14} style={{ color: colors.textSecondary, cursor: 'pointer' }} />
       </div>
     </aside>
   );
